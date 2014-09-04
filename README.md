@@ -10,7 +10,7 @@
 
 Let's simplify **kamehameha** and compare it with **infinite loading**:
 
-| states  | action | kamehameha | infinite scrolling |
+| states  | action | kamehameha | infinite loading |
 | --------- | -------- | ------------------ | --------------------- |
 | ready | ![1](./examples/img/ready.png) | watch on certain enemy | watch on scrolling event |
 | triggering | ![2](./examples/img/trigger.png) | make a right pose | scroll the page to bottom |
@@ -22,6 +22,8 @@ Let's simplify **kamehameha** and compare it with **infinite loading**:
 
 
 ## How it works
+
+This toy class defines an action flow of infinite loading by applying the kamehameha metaphor. It Helps user to focus on the business logic: event lisening, loading and rendering.
 
 1. Create a **GoKu**. (**GoKu** is the character who can perform **kamehameha** with great power. "Kamehameha" is hard to spell. "Goku" should be more human-friendly.)
 
