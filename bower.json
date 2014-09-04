@@ -1,0 +1,25 @@
+{
+  "name": "kamehameha",
+  "version": "0.0.0",
+  "authors": [
+    "Mike Chen <chintown@gmail.com>"
+  ],
+  "description": "A stateful page-bottom detector",
+  "main": "dist/kamehameha.js",
+  "keywords": [
+    "infinite scrolling",
+    "boundary detecting"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/chintown/kamehameha",
+  "dependencies": {
+    "jquery": "1"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

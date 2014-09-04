@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #goku {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 400px;
+                height: 300px;
+                background-size: 100% 100%;
+                background-position: right center;
+                background-repeat: no-repeat;
+
+                z-index: 100;
+            }
+            #goku:after {
+                content: "";
+
+                position: fixed;
+                bottom: 0;
+                left: 400px;
+                width: 100%;
+                height: 200px;
+
+                font-size: 2em;
+            }
+
+            #goku.ready {
+                background-image: url('img/ready.png');
+            }
+            #goku.ready:after {
+                content: "watch and wait for next action ... ";
+            }
+            #goku.hold {
+                background-image: url('img/hold.png');
+            }
+            #goku.hold:after {
+                content: "loading 10 images ... ";
+            }
+            #goku.emit {
+                background-image: url('img/emit.png');
+            }
+            #goku.emit:after {
+                content: " ";
+
+                height: 300px;
+                background-size: 100% 100%;
+                background-position: center center;
+                background-repeat: repeat;
+                background-image: url('img/wave.png');
+            }
+            #goku.rest {
+                background-image: url('img/rest.png');
+            }
+            #goku.rest:after {
+                content: "disable loading for 2 seconds";
+            }
+
+            #gallery {
+                margin-bottom: 400px;
+            }
+            img {
+                height: 200px;
+                opacity: 0.3;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="gallery"></div>
+        <div id="goku"></div>
+
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="../dist/kamehameha.js"></script>
+        <script>
+            var images, preloadCounter = 0;
+            function preload (targets) {
+                images = [];
+                for (var i = 0; i < targets.length; i++) {
+                    images[i] = new Image();
+                    images[i].src = targets[i];
+                    images[i].onload = function() {
+                        preloadCounter++;
+                    };
+                }
+            }
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            $(document).ready(function() {
+                var $container = $('#gallery');
+                var goku = new Goku({
+                    indicator: $('#goku')
+                    ,onHold: function(counter, next) {
+                        var targets = [];
+                        for (var i = 0; i < 10; i++) {
+                            var url = 'http://lorempixel.com/'+getRandomInt(100,200)+'/'+getRandomInt(200, 100)+'/';
+                            targets.push(url);
+                        }
+                        preload(targets);
+                        setInterval(function() {
+                            if (preloadCounter == targets.length) {
+                                preloadCounter = 0;
+                                next();
+                            }
+                        }, 1000);
+                    }
+                    ,onEmit: function(counter, next) {
+                        var handle = setInterval(function() {
+                            if (images.length > 0) {
+                                $container.append($(images.shift()));
+                            } else {
+                                clearInterval(handle);
+                                setTimeout(next, 1000);
+                            }
+                        }, 100);
+                    }
+                    ,restingSeconds: 2
+                });
+                goku.study();
+            });
+
+        </script>
+    </body>
+</html>
