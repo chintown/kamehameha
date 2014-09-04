@@ -29,9 +29,9 @@ Let's simplify **kamehameha** and compare it with **infinite loading**:
 	var options = {
 		watch: function (next) {}
 		,shouldTrigger: function (event) {}
-		,onHold: function (event) {}
-		,onEmit: function (event) {}
-		,restingSeconds: (number)
+		,onHold: function (next) {}
+		,onEmit: function (next) {}
+		,restingSeconds: <number>
 	}
 	var goku = new Goku(options);
 	```
@@ -52,7 +52,7 @@ Let's simplify **kamehameha** and compare it with **infinite loading**:
 	// for each loaded image 	
 	$container.append($(<img>).attr('src', url));
 	```
-6. Decide how long to take a rest (**options.restingSeconds**)
+6. Decide how long to take a rest (**options.restingSeconds**). By default, it's one second.
 
 7. Ask **Goku** to study what you teach and start to work
 
