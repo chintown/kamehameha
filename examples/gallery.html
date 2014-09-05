@@ -1,71 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <title>Infinite Image Loading - Kamehameha Demonstration</title>
+        <link rel="stylesheet" href="css/goku.css">
         <style>
             html, body {
                 width: 110%;
             }
-            #goku {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                width: 400px;
-                height: 300px;
-                background-size: 100% 100%;
-                background-position: right center;
-                background-repeat: no-repeat;
-
-                z-index: 100;
-            }
-            #goku:after {
-                content: "";
-
-                position: fixed;
-                bottom: 0;
-                left: 400px;
-                width: 100%;
-                height: 200px;
-
-                font-size: 2em;
-            }
-
-            #goku.ready {
-                background-image: url('img/ready.png');
-            }
-            #goku.ready:after {
-                content: "watch and wait for next action ... ";
-            }
-            #goku.trigger {
-                background-image: url('img/trigger.png');
-            }
-            #goku.trigger:after {
-                content: "triggered!";
-            }
-            #goku.hold {
-                background-image: url('img/hold.png');
-            }
             #goku.hold:after {
                 content: "loading 10 images ... ";
             }
-            #goku.emit {
-                background-image: url('img/emit.png');
-            }
-            #goku.emit:after {
-                content: " ";
-
-                height: 300px;
-                background-size: 100% 100%;
-                background-position: center center;
-                background-repeat: repeat;
-                background-image: url('img/wave.png');
-            }
-            #goku.rest {
-                background-image: url('img/rest.png');
-            }
-            #goku.rest:after {
-                content: "disable loading for 2 seconds";
-            }
-
             #gallery {
                 margin-bottom: 400px;
             }
