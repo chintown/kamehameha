@@ -35,6 +35,12 @@
             #goku.ready:after {
                 content: "watch and wait for next action ... ";
             }
+            #goku.trigger {
+                background-image: url('img/trigger.png');
+            }
+            #goku.trigger:after {
+                content: "triggered!";
+            }
             #goku.hold {
                 background-image: url('img/hold.png');
             }
@@ -93,7 +99,8 @@
                 var keysAndHoles;
 
                 var goku = new Goku({
-                    indicator: $('#goku')
+                    debug: true
+                    ,indicator: $('#goku')
 //                    ,shouldTrigger: function() {
 //                        // <!DOCTYPE html> is a must to get correct $(document).height()
 //                        var heightViewport = $(window).height();

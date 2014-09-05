@@ -1,7 +1,8 @@
 var Goku = (function($) {
     function Goku(userOptions) {
         this.options = $.extend({
-                indicator: $('<div></div>').attr('id', 'kamehameha-indicator').appendTo($('body'))
+                debug: false
+                ,indicator: $('<div></div>').attr('id', 'kamehameha-indicator').appendTo($('body'))
                 ,watch: function (next) {
                     $(window).scroll(function() {
                         next();
@@ -26,11 +27,13 @@ var Goku = (function($) {
     }
     Goku.prototype.think = function () {
         if (!this.isActing && this.options.shouldTrigger()) {
-            this.hold();
+            this.isActing = true;
+
+            this.setStateClass('trigger');
+            setTimeout(this.hold.bind(this), this.options.debug ? 1000 : 0);
         }
     };
     Goku.prototype.hold = function () {
-        this.isActing = true;
         console.log('hold...');
         this.setStateClass('hold');
 
@@ -55,7 +58,7 @@ var Goku = (function($) {
         }, this.options.restingSeconds * 1000);
     };
     Goku.prototype.setStateClass = function(state) {
-        this.$indicator.removeClass('rest hold emit').addClass(state);
+        this.$indicator.removeClass('rest trigger hold emit').addClass(state);
     };
     // -------------------------------------------------------------------------
     Goku.prototype.study = function () {
