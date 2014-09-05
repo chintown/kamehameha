@@ -62,7 +62,7 @@ var Goku = (function($) {
         }, this.options.restingSeconds * 1000);
     };
     Goku.prototype.setStateClass = function(state) {
-        this.$indicator.removeClass('rest trigger hold emit').addClass(state);
+        this.$indicator.removeClass('ready trigger hold emit rest').addClass(state);
     };
     // -------------------------------------------------------------------------
     Goku.prototype.study = function () {
