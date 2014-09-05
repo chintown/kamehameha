@@ -40,17 +40,38 @@ Let's simplify **kamehameha** and compare it with **infinite loading**:
 
 3. Decide a triggering condition (**options.shouldTrigger**). By default, he triggers the action while page reaches bottom
 
+    ```js
+    // trigger it once the distance to bottom is less than 100px
+    shouldTrigger: function (event) {
+        var heightViewport = $(window).height();
+        var distanceFromViewportTopToPageBottom
+                = $(document).height() - $(document).scrollTop();
+        return (distanceFromViewportTopToPageBottom - heightViewport) < 100;
+    }
+    ```
+
 4. Decide a callback to perform ajax requesting (**options.onHold**).
 
 	```js
 	// load 10 images from http://lorempixel.com/
+	onHold: function(counter, next) {
+	    // ...
+	    // (new Image()).src = 'http://lorempixel.com/...';
+	    // ...
+	    next();
+	}
 	```
 
 5. Decide a callback to perform data rendering (**options.onEmit**).
 
 	```js
-	// for each loaded image 	
-	$container.append($(<img>).attr('src', url));
+	// render each loaded image
+    onHold: function(counter, next) {
+        // ...
+        // $canvas.append(imageObject);
+        // ...
+        next();
+    }
 	```
 6. Decide how long to take a rest (**options.restingSeconds**). By default, it's one second.
 

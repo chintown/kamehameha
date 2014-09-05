@@ -2,6 +2,9 @@
 <html>
     <head>
         <style>
+            html, body {
+                width: 110%;
+            }
             #goku {
                 position: fixed;
                 bottom: 0;
@@ -60,9 +63,19 @@
             #gallery {
                 margin-bottom: 400px;
             }
-            img {
+            .placeholder {
+                display: inline-block;
                 height: 200px;
+                min-width: 100px;
                 opacity: 0.3;
+                background: url('img/loading.gif') center center no-repeat, url('img/bg.jpg');
+                margin-right: 5px;
+            }
+            .placeholder.filled {
+                min-width: inherit;
+            }
+            img {
+                height: 100%;
             }
 
         </style>
@@ -71,45 +84,51 @@
         <div id="gallery"></div>
         <div id="goku"></div>
 
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
         <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="../dist/kamehameha.js"></script>
         <script>
-            var images, preloadCounter = 0;
-            function preload (targets) {
-                images = [];
-                for (var i = 0; i < targets.length; i++) {
-                    images[i] = new Image();
-                    images[i].src = targets[i];
-                    images[i].onload = function() {
-                        preloadCounter++;
-                    };
-                }
-            }
-            function getRandomInt(min, max) {
-                return Math.floor(Math.random() * (max - min + 1)) + min;
-            }
             $(document).ready(function() {
                 var $container = $('#gallery');
+                var keysAndHoles;
+
                 var goku = new Goku({
                     indicator: $('#goku')
+//                    ,shouldTrigger: function() {
+//                        // <!DOCTYPE html> is a must to get correct $(document).height()
+//                        var heightViewport = $(window).height();
+//                        var distanceFromViewportTopToPageBottom
+//                                = $(document).height() - $(document).scrollTop();
+//                        return (distanceFromViewportTopToPageBottom - heightViewport) < 100;
+//                    }
                     ,onHold: function(counter, next) {
-                        var targets = [];
-                        for (var i = 0; i < 10; i++) {
-                            var url = 'http://lorempixel.com/'+getRandomInt(100,200)+'/'+getRandomInt(200, 100)+'/';
-                            targets.push(url);
-                        }
-                        preload(targets);
-                        setInterval(function() {
-                            if (preloadCounter == targets.length) {
-                                preloadCounter = 0;
-                                next();
-                            }
-                        }, 1000);
+                        var times = 10;
+                        var targets = _(times).times(function() {
+                            return 'http://lorempixel.com/'+_.random(100,200)+'/'+_.random(200, 100)+'/';
+                        });
+
+                        var $placeholders = _(times).times(function() {
+                            return $('<div>').addClass('placeholder');
+                        });
+                        $container.append($placeholders);
+
+                        var markLoaded = _.after(targets.length, next);
+                        var images = _.map(targets, function(target) {
+                            var image = new Image();
+                            image.src = target;
+                            image.onload = markLoaded;
+                            return image;
+                        });
+
+                        keysAndHoles = _.zip($placeholders, images);
                     }
                     ,onEmit: function(counter, next) {
                         var handle = setInterval(function() {
-                            if (images.length > 0) {
-                                $container.append($(images.shift()));
+                            if (keysAndHoles.length > 0) {
+                                var keyAndHold = keysAndHoles.shift();
+                                var $hold = keyAndHold[0];
+                                var key = keyAndHold[1];
+                                $hold.append(key).addClass('filled');
                             } else {
                                 clearInterval(handle);
                                 setTimeout(next, 1000);
